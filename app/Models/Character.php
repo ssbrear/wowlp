@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Character extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'realm',
+        'io_rating',
+        'lp_rating',
+    ];
 }
