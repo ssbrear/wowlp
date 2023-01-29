@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe33f98a750b8c5a51b30c78bd3fab21",
+    "content-hash": "b5920e5a045b41a4eef02a5b6bb18245",
     "packages": [
         {
             "name": "brick/math",
@@ -432,6 +432,51 @@
                 }
             ],
             "time": "2023-01-14T14:17:03+00:00"
+        },
+        {
+            "name": "francis-schiavo/blizzard_api",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/francis-schiavo/blizzard_api_php.git",
+                "reference": "e394b264dda77c9e63a06e988b9fd5b54523bec9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/francis-schiavo/blizzard_api_php/zipball/e394b264dda77c9e63a06e988b9fd5b54523bec9",
+                "reference": "e394b264dda77c9e63a06e988b9fd5b54523bec9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-redis": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BlizzardApi\\": "src/",
+                    "BlizzardApi\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Francis Schiavo",
+                    "email": "francischiavo@gmail.com"
+                }
+            ],
+            "description": "PHP client for Blizzard web APIs",
+            "support": {
+                "issues": "https://github.com/francis-schiavo/blizzard_api_php/issues",
+                "source": "https://github.com/francis-schiavo/blizzard_api_php/tree/v0.1.0"
+            },
+            "time": "2022-02-20T04:05:13+00:00"
         },
         {
             "name": "fruitcake/php-cors",

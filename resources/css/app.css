@@ -46,9 +46,5 @@ body {
     background-color: #cccccc;
 }
 #results {
-    display: none;
     margin-top: 4rem;
-}
-#results.active {
-    display: block;
 }

@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use BlizzardApi\Enumerators\Region;
+
+BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
+BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
+BlizzardApi\Configuration::$region = Region::US;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $api_client = new \BlizzardApi\Wow\GameData\Realm();
+    $res = $api_client->index();
+    \Log::info(print_r($res->realms, true));
+    return view('welcome', compact('res'));
 });

@@ -19,19 +19,7 @@
 </head>
 
 <body>
-    <div id="app">
-        <h1>WoW LP</h1>
-        <form id="search-form" onsubmit="return false" method="GET" action="{{ route('characters.get') }}">
-            <select></select>
-            <input type="text">
-            <button type='submit'><i class='fa-solid fa-search'></i></button>
-        </form>
-        <div id="results">
-            <div class="fa-3x">
-                <i class="fas fa-spinner fa-spin"></i>
-            </div>
-        </div>
-    </div>
+    <div id="app"></div>
 </body>
 
 </html>
