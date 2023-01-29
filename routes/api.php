@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/characters', [CharacterController::class, 'index']);
-Route::post('/characters', [CharacterController::class, 'store']);
+Route::get('/characters', [CharacterController::class, 'index'])->name("characters.get");;
+Route::post('/characters', [CharacterController::class, 'store'])->name("characters.post");
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
