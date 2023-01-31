@@ -1,3 +1,9 @@
+* {
+    box-sizing: border-box !important;
+}
+.hidden {
+    display: none !important;
+}
 body {
     background-color: #343434;
     position: fixed;
@@ -19,19 +25,64 @@ body {
 #app > h1 {
     font-size: 4rem;
 }
-#search-form {
+#search-container {
     height: 45px;
     display: flex;
     position: relative;
 }
-#search-form select {
+#search-container select {
+    /* display: none; */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+    display: none;
+}
+#search-container #fake-select {
     border-radius: 0;
     border: none;
+    width: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #dddddd;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
 }
-#search-form input {
+#search-container #fake-select__dropdown {
+    position: absolute;
+    flex-direction: column;
+    background-color: #dddddd;
+    height: min(100vh, 400px);
+    top: 100%;
+    left: 0;
+    overflow-y: scroll;
+    width: 100%;
+}
+#search-container #fake-select__dropdown div {
+    padding: 5px 20px;
+    transition: 0.3s;
+}
+#search-container #fake-select__dropdown div:hover {
+    background-color: #bbbbbb;
+}
+#search-container input {
     border: none;
+    min-width: 300px;
+    padding-right: 40px;
+    padding-left: 20px;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1.25rem;
 }
-#search-form button {
+#search-container input:focus-visible {
+    outline: none;
+}
+#search-container button {
     position: absolute;
     right: 0;
     top: 50%;
@@ -42,9 +93,76 @@ body {
     width: 40px;
     transition: 0.3s;
 }
-#search-form button:hover {
+#search-container button:hover {
     background-color: #cccccc;
+}
+#searchForm .loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+#search-container__errors {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 100, 100);
+    color: black;
+    top: 100%;
+}
+#search-container__errors.active {
+    display: flex;
 }
 #results {
     margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    padding: 2em;
+}
+#results > div {
+    display: flex;
+    gap: 10px;
+}
+.DeathKnight {
+    color: #C41E3A;
+}
+.DemonHunter {
+    color: #A330C9;
+}
+.Druid {
+    color: #FF7C0A;
+}
+.Evoker {
+    color: #33937F;
+}
+.Hunter {
+    color: #AAD372;
+}
+.Mage {
+    color: #3FC7EB;
+}
+.Monk {
+    color: #00FF98;
+}
+.Paladin {
+    color: #F48CBA;
+}
+.Priest {
+    color: #FFFFFF;
+}
+.Rogue {
+    color: #FFF468;
+}
+.Shaman {
+    color: #0070DD;
+}
+.Warlock {
+    color: #8788EE;
+}
+.Warrior {
+    color: #C69B6D;
 }

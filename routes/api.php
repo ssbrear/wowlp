@@ -1,9 +1,16 @@
 <?php
 
-use App\Http\Controllers\CharacterController;
-
 use Illuminate\Http\Request;
+use BlizzardApi\Enumerators\Region;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RealmController;
+use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\CharacterRealmController;
+
+BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
+BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
+BlizzardApi\Configuration::$region = Region::US;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/characters', [CharacterController::class, 'index'])->name("characters.get");;
-Route::post('/characters', [CharacterController::class, 'store'])->name("characters.post");
+Route::get("/realms", [RealmController::class, 'index'])->name("realms.index");
+Route::get('/characters', [CharacterController::class, 'index'])->name("characters.index");
+Route::post('/characters', [CharacterController::class, 'store'])->name("characters.store");
+Route::get('/realms/{realm_name}/characters/{character_name}', [CharacterController::class, 'show'])->name("characters.show");
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

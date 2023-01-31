@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('realm');
-            $table->integer('lp_rating')->default(0);
+            $table->string('class');
+            $table->string('race');
+            $table->string('guild');
             $table->timestamps();
         });
     }

@@ -19,7 +19,10 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <h1>WoW LP</h1>
+        <div id="searchForm"></div>
+    </div>
 </body>
 
 </html>

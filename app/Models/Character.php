@@ -12,8 +12,9 @@ class Character extends Model
     protected $fillable = [
         'name',
         'realm',
-        'io_rating',
-        'lp_rating',
+        'race',
+        'class',
+        'guild',
     ];
 
     public function realm()

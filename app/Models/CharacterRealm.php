@@ -19,4 +19,8 @@ class CharacterRealm extends Model
     {
         return $this->hasOne(Character::class, "name", "character_name");
     }
+    public function realm()
+    {
+        return $this->hasOne(Realm::class, "name", "realm_name");
+    }
 }

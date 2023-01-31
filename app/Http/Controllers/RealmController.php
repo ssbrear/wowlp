@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Realm;
-
 use Illuminate\Http\Request;
 
 class RealmController extends Controller
@@ -15,6 +15,19 @@ class RealmController extends Controller
      */
     public function index()
     {
+        $updatedAt = Realm::findOr(1, ['updated_at'], function() {
+            return null;
+        });
+        $now = explode("-", Carbon::now()->toDateTimeString(), 2);
+        if ($updatedAt === null || $now[0] !== "2023") {
+            $api_client = new \BlizzardApi\Wow\GameData\Realm();
+            $res = $api_client->index();
+            $formattedData = [];
+            forEach($res->realms as $realm) {
+                array_push($formattedData, ["id"=>$realm->id, "name"=>$realm->name->en_US, "slug"=>$realm->slug]);
+            }
+            Realm::upsert($formattedData, ['id'], ['name', 'slug']);
+        }
         return Realm::all();
     }
 

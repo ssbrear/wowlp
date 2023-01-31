@@ -51,9 +51,9 @@ class CharacterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($realm_name, $character_name)
     {
-        //
+        return Character::where("realm", $realm_name)->where("name", $character_name)->first();
     }
 
     /**
