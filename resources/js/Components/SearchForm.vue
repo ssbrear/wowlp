@@ -37,7 +37,7 @@
                 <i class="fas fa-spinner fa-spin"></i>
             </div>
         </div>
-        <CharacterCard :region="region" :results="results"></CharacterCard>
+        <CharacterCard v-if="!fetching" :region="region" :results="results"></CharacterCard>
     </div>
 </template>
 <script>
@@ -96,6 +96,7 @@ export default {
             const data = await res.json();
             this.results = data;
             this.fetching = false;
+            console.table(data);
         },
     },
     mounted() {

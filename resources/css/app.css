@@ -4,6 +4,49 @@
 .hidden {
     display: none !important;
 }
+.DeathKnight {
+    color: #c41e3a;
+}
+.DemonHunter {
+    color: #a330c9;
+}
+.Druid {
+    color: #ff7c0a;
+}
+.Evoker {
+    color: #33937f;
+}
+.Hunter {
+    color: #aad372;
+}
+.Mage {
+    color: #3fc7eb;
+}
+.Monk {
+    color: #00ff98;
+}
+.Paladin {
+    color: #f48cba;
+}
+.Priest {
+    color: #ffffff;
+}
+.Rogue {
+    color: #fff468;
+}
+.Shaman {
+    color: #0070dd;
+}
+.Warlock {
+    color: #8788ee;
+}
+.Warrior {
+    color: #c69b6d;
+}
+img {
+    width: 100%;
+    height: auto;
+}
 body {
     background-color: #343434;
     position: fixed;
@@ -99,7 +142,7 @@ body {
 #searchForm .loading {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    width: 100%;
 }
 #search-container__errors {
     position: absolute;
@@ -119,50 +162,19 @@ body {
 #results {
     margin-top: 4rem;
     display: flex;
-    flex-direction: column;
     background-color: #121212;
     padding: 2em;
 }
-#results > div {
+#results #headshot {
+    max-width: 125px;
+    margin-right: 20px;
+}
+#results #info {
     display: flex;
+    flex-direction: column;
     gap: 10px;
 }
-.DeathKnight {
-    color: #C41E3A;
-}
-.DemonHunter {
-    color: #A330C9;
-}
-.Druid {
-    color: #FF7C0A;
-}
-.Evoker {
-    color: #33937F;
-}
-.Hunter {
-    color: #AAD372;
-}
-.Mage {
-    color: #3FC7EB;
-}
-.Monk {
-    color: #00FF98;
-}
-.Paladin {
-    color: #F48CBA;
-}
-.Priest {
-    color: #FFFFFF;
-}
-.Rogue {
-    color: #FFF468;
-}
-.Shaman {
-    color: #0070DD;
-}
-.Warlock {
-    color: #8788EE;
-}
-.Warrior {
-    color: #C69B6D;
+#results #info > div {
+    display: flex;
+    gap: 10px;
 }

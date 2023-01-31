@@ -20,8 +20,8 @@ class RealmController extends Controller
         });
         $now = explode("-", Carbon::now()->toDateTimeString(), 2);
         if ($updatedAt === null || $now[0] !== "2023") {
-            $api_client = new \BlizzardApi\Wow\GameData\Realm();
-            $res = $api_client->index();
+            $realms = new \BlizzardApi\Wow\GameData\Realm();
+            $res = $realms->index();
             $formattedData = [];
             forEach($res->realms as $realm) {
                 array_push($formattedData, ["id"=>$realm->id, "name"=>$realm->name->en_US, "slug"=>$realm->slug]);
