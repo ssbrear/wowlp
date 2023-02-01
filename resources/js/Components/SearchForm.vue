@@ -4,6 +4,11 @@
             <span id="fake-select__label">{{ form.realm.name }}</span>
             <i class="fa-solid fa-chevron-down"></i>
             <div id="fake-select__dropdown" v-if="realmDropdownActive">
+                <div v-if="realmFetching" class="loading">
+                    <div class="fa-3x">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
                 <div
                     v-for="realm in realms"
                     :key="realm in realms"
@@ -23,7 +28,11 @@
                 {{ realm.name }}
             </option>
         </select>
-        <input type="text" v-model="form.character" />
+        <input
+            type="text"
+            v-model="form.character"
+            placeholder="Search characters..."
+        />
         <button type="submit"><i class="fa-solid fa-search"></i></button>
         <div
             id="search-container__errors"
@@ -31,13 +40,17 @@
         ></div>
     </form>
 
-    <div v-if="Object.keys(results).length !== 0" id="results">
-        <div v-if="fetching" class="loading">
+    <div v-if="Object.keys(results).length !== 0 || charFetching" id="results">
+        <div v-if="charFetching" class="loading">
             <div class="fa-3x">
                 <i class="fas fa-spinner fa-spin"></i>
             </div>
         </div>
-        <CharacterCard v-if="!fetching" :region="region" :results="results"></CharacterCard>
+        <CharacterCard
+            v-if="Object.keys(results).length !== 0 && !charFetching"
+            :region="region"
+            :results="results"
+        ></CharacterCard>
     </div>
 </template>
 <script>
@@ -48,7 +61,8 @@ export default {
     },
     data() {
         return {
-            fetching: false,
+            realmFetching: false,
+            charFetching: false,
             realms: [],
             form: {
                 realm: {
@@ -65,20 +79,21 @@ export default {
     },
     methods: {
         realmMenu: async function () {
-            if (this.realms.length === 0) {
-                this.fetching = true;
-                const res = await fetch("/api/realms", {
-                    method: "GET",
-                });
-                this.fetching = false;
-                const data = await res.json();
-                data.sort((a, b) => a.name > b.name);
-                this.realms = data;
-            }
             if (this.realmDropdownActive !== true) {
                 this.realmDropdownActive = true;
             } else {
                 this.realmDropdownActive = false;
+            }
+
+            if (this.realms.length === 0) {
+                this.realmFetching = true;
+                const res = await fetch("/api/realms", {
+                    method: "GET",
+                });
+                this.realmFetching = false;
+                const data = await res.json();
+                data.sort((a, b) => a.name > b.name);
+                this.realms = data;
             }
         },
         selectRealm: function (slug, name) {
@@ -86,7 +101,7 @@ export default {
             this.form.realm.name = name;
         },
         search: async function () {
-            this.fetching = true;
+            this.charFetching = true;
             const res = await fetch(
                 `/api/realms/${this.form.realm.name}/characters/${this.form.character}`,
                 {
@@ -95,18 +110,32 @@ export default {
             );
             const data = await res.json();
             this.results = data;
-            this.fetching = false;
-            console.table(data);
+            this.charFetching = false;
         },
     },
     mounted() {
         // Close dropdown if click occurs outside
         const self = this;
-        const fakeSelect = document.getElementById("fake-select");
         window.addEventListener("click", (e) => {
+            const fakeSelect = document.getElementById("fake-select");
             if (fakeSelect.contains(e.target)) return;
             if ((self.realmDropdownActive = true)) {
                 self.realmDropdownActive = false;
+            }
+        });
+        window.addEventListener("keydown", function (e) {
+            const dropdown = document.getElementById("fake-select__dropdown");
+            if (!self.realmDropdownActive) return;
+            const key = e.key;
+            for (let i = 0; i < dropdown.childNodes.length; i++) {
+                if (
+                    dropdown.childNodes[i].textContent
+                        .charAt(0)
+                        .toLowerCase() === key
+                ) {
+                    dropdown.childNodes[i].scrollIntoView();
+                    break;
+                }
             }
         });
     },
