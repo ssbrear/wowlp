@@ -74,7 +74,6 @@ body {
     position: relative;
 }
 #search-container select {
-    /* display: none; */
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
