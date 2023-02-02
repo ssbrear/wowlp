@@ -13,6 +13,7 @@ class Character extends Model
         'name',
         'realm',
         'realm_slug',
+        'character_name_realm_name',
         'race',
         'class',
         'guild',

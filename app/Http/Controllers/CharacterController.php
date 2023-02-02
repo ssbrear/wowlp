@@ -8,6 +8,10 @@ use App\Models\CharacterRealm;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use BlizzardApi\Enumerators\Region;
+\BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
+\BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
+\BlizzardApi\Configuration::$region = Region::US;
 
 class CharacterController extends Controller
 {
@@ -33,21 +37,17 @@ class CharacterController extends Controller
             'name'=>'required',
             'realm'=>'required',
             'realm_slug'=>'required',
+            'character_name_realm_name'=>'required|unique',
             'race'=>'required',
             'class'=>'required',
             'headshot'=>'required',
         ]);
 
-        DB::transaction(function () use ($request) {
-            $character = Character::create($request->all());
-            $characterRealm = CharacterRealm::create([
-                "character_name"             => $request->get("name"),
-                "realm_name"                 => $request->get("realm"),
-                "character-name_realm-name"  => $request->get("name")."_".$request->get("realm"),
-            ]);
-            $character->characterRealm()->save($characterRealm);
-            return $character;
-        });
+        $characterAttrs = $request->all();
+        $characterAttrs->name = ucwords(strtolower($characterAttrs->name));
+        $character = Character::create($characterAttrs);
+        $character->save();
+        return $character;
     }
 
     /**
@@ -58,23 +58,16 @@ class CharacterController extends Controller
      */
     public function show($realm_name, $character_name)
     {
+        $character_name = ucwords(strtolower($character_name));
         $character = Character::where("name", $character_name)->where("realm", $realm_name)->first();
-        if ($character === null) {
-            $characterAttrs = $this->queryBlizzard($realm_name, $character_name);
-
-            DB::transaction(function() use ($characterAttrs) {
-                $character = Character::create($characterAttrs);
-                $characterRealm = CharacterRealm::create([
-                    "character_name"             => $character->name,
-                    "realm_name"                 => $character->realm,
-                    "character-name_realm-name"  => $character->name."_".$character->realm,
-                ]);
-                $character->characterRealm()->save($characterRealm);
-            });
-
-            return $characterAttrs;
-        } else {
+        if ($character) {
             return $character;
+        } else {
+            $characterAttrs = $this->queryBlizzard($realm_name, $character_name);
+            $characterAttrs["character_name_realm_name"] = $character_name."_".$realm_name;
+            $character = Character::create($characterAttrs);
+            $character->save();
+            return $characterAttrs;
         }
     }
 

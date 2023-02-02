@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('realm');
             $table->string('realm_slug');
-            $table->string('class');
+            $table->string('character_name_realm_name');
             $table->string('race');
-            $table->string('guild')->nullable();
+            $table->string('class');
             $table->string('headshot');
+            $table->string('guild')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Realm;
 use Illuminate\Http\Request;
+use BlizzardApi\Enumerators\Region;
+\BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
+\BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
+\BlizzardApi\Configuration::$region = Region::US;
 
 class RealmController extends Controller
 {
