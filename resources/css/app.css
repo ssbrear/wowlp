@@ -67,6 +67,7 @@ body {
 }
 #app > h1 {
     font-size: 4rem;
+    user-select: none;
 }
 #search-container {
     height: 45px;
@@ -172,8 +173,19 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    font-weight: 500;
 }
 #results #info > div {
     display: flex;
     gap: 10px;
+}
+#results a {
+    text-decoration: none;
+    color: #ff8000;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: 700;
+}
+#results a:hover {
+    color: #bb4000;
 }
