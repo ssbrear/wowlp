@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html data-theme='dark' lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -19,10 +19,23 @@
 </head>
 
 <body>
+    <label for='themeToggle' class='switchContainer'>
+        <input id="themeToggle" type="checkbox">
+        <span class='switch'></span>
+    </label>
     <div id="app">
         <h1>WoW LP</h1>
         <div id="searchForm"></div>
     </div>
+
+    <script>
+        window.addEventListener("change", function(e) {
+            if (e.target.id === "themeToggle") {
+            const html = document.querySelector("html");
+            html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+            }
+        })
+    </script>
 </body>
 
 </html>

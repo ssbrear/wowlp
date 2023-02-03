@@ -1,3 +1,19 @@
+:root {
+    --primary-color: #ff8000;
+    --primary-color-highlight: #aa6000;
+}
+html[data-theme="dark"] {
+    --primary-background-color: #121212;
+    --secondary-background-color: #343434;
+    --primary-text-color: #ababab;
+    --secondary-text-color: #dedede;
+}
+html[data-theme="light"] {
+    --primary-background-color: #ababab;
+    --secondary-background-color: #dedede;
+    --primary-text-color: #121212;
+    --secondary-text-color: #343434;
+}
 * {
     box-sizing: border-box !important;
 }
@@ -48,12 +64,49 @@ img {
     height: auto;
 }
 body {
-    background-color: #121212;
+    background-color: var(--primary-background-color);
     position: fixed;
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
+}
+a {
+    color: var(--primary-color);
+}
+a:hover {
+    color: var(--primary-color-highlight);
+}
+.switchContainer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+.switchContainer input[type="checkbox"] {
+    display: none !important;
+}
+.switchContainer .switch {
+    display: block;
+    width: 50px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: var(--primary-text-color);
+    cursor: pointer;
+    transition: 0.3s;
+}
+.switchContainer .switch::before {
+    content: "";
+    position: absolute;
+    left: 2.5%;
+    top: 5%;
+    width: 40%;
+    height: 90%;
+    border-radius: 50px;
+    transition: 0.3s;
+    background-color: var(--primary-background-color);
+}
+.switchContainer input[type="checkbox"]:checked + .switch::before {
+    left: 57.5%;
 }
 #app {
     display: flex;
@@ -68,6 +121,7 @@ body {
 #app > h1 {
     font-size: 4rem;
     user-select: none;
+    color: var(--primary-text-color);
 }
 #search-container {
     height: 45px;
@@ -89,8 +143,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background-color: #dddddd;
-    color: black;
+    background-color: var(--secondary-background-color);
+    color: var(--secondary-text-color);
     font-weight: 600;
     cursor: pointer;
     font-size: 1rem;
@@ -99,7 +153,7 @@ body {
 #search-container #fake-select__dropdown {
     position: absolute;
     flex-direction: column;
-    background-color: #dddddd;
+    background-color: var(--secondary-background-color);
     height: min(100vh, 400px);
     top: 100%;
     left: 0;
@@ -137,7 +191,7 @@ body {
     transition: 0.3s;
 }
 #search-container button:hover {
-    background-color: #cccccc;
+    background-color: var(--secondary-background-color);
 }
 #searchForm .loading {
     display: flex;
@@ -162,7 +216,8 @@ body {
 #results {
     margin-top: 4rem;
     display: flex;
-    background-color: #343434;
+    background-color: var(--secondary-background-color);
+    color: var(--secondary-text-color);
     padding: 2em;
 }
 #results #headshot {
@@ -181,11 +236,7 @@ body {
 }
 #results a {
     text-decoration: none;
-    color: #ff8000;
     transition: 0.3s;
     font-size: 14px;
     font-weight: 700;
-}
-#results a:hover {
-    color: #bb4000;
 }

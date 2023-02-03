@@ -56,9 +56,6 @@
 <script>
 import CharacterCard from "./CharacterCard.vue";
 export default {
-    components: {
-        CharacterCard: CharacterCard,
-    },
     data() {
         return {
             realmFetching: false,
@@ -76,6 +73,9 @@ export default {
             results: {},
             region: "US",
         };
+    },
+    components: {
+        CharacterCard: CharacterCard,
     },
     methods: {
         realmMenu: async function () {
