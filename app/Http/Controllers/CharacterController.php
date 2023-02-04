@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Realm;
 use App\Models\Character;
-use App\Models\CharacterRealm;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

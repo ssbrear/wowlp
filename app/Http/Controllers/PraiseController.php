@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CharacterRealmController extends Controller
+class PraiseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,9 +24,7 @@ class CharacterRealmController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "character_name-realm_name"=>"required|unique",
-        ]);
+        //
     }
 
     /**
@@ -35,9 +33,9 @@ class CharacterRealmController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($realm_name, $character_name)
+    public function show($id)
     {
-       //
+        //
     }
 
     /**

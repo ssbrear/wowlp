@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RealmController;
 use App\Http\Controllers\CharacterController;
-use App\Http\Controllers\CharacterRealmController;
 use BlizzardApi\Enumerators\Region;
 \BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
 \BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
