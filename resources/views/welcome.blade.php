@@ -19,20 +19,13 @@
 </head>
 
 <body>
-    <label for='themeToggle' class='switchContainer'>
-        <input id="themeToggle" type="checkbox">
-        <span class='switch'></span>
-    </label>
-    <div id="app">
-        <h1>WoW LP</h1>
-        <div id="searchForm"></div>
-    </div>
+    <div id="app"></div>
 
     <script>
         window.addEventListener("change", function(e) {
             if (e.target.id === "themeToggle") {
-            const html = document.querySelector("html");
-            html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+                const html = document.querySelector("html");
+                html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
             }
         })
     </script>

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('praise', function (Blueprint $table) {
             $table->id();
+            $table->integer("praiser_id");
             $table->integer("character_id");
             $table->integer("pumper")->default(0);
             $table->integer("technical")->default(0);

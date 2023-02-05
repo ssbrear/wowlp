@@ -1,7 +1,7 @@
 import './bootstrap';
 
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 
-import SearchForm from './Components/SearchForm.vue';
+import App from './Components/App.vue';
 
-createApp(SearchForm).mount("#searchForm");
+createApp(App).mount("#app");

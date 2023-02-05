@@ -10,6 +10,7 @@ class Praise extends Model
     use HasFactory;
 
     protected $fillable = [
+        'praiser_id',
         'character_id',
         'pumper',
         'technical',

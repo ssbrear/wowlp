@@ -44,9 +44,67 @@ export default {
     };
   },
   methods: {
-    praiseModal: function() {
-        this.$emit("praiseModal");
-    }
-  }
+    praiseModal: function () {
+      this.$emit("praiseModal");
+    },
+  },
 };
 </script>
+
+<style>
+#praise-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.praise-modal__inner {
+  position: absolute;
+  width: 850px;
+  height: 250px;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  background-color: var(--primary-background-color);
+}
+
+.praise-modal__inner .fa-xmark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+.praise-modal__inner .fa-xmark:hover {
+  filter: brightness(0.5);
+}
+
+.praise-modal__inner .option {
+  flex: auto;
+  background-color: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  gap: 20px;
+}
+
+.praise-modal__inner .option:hover {
+  filter: brightness(0.8);
+}
+
+.praise-modal__inner .option:active {
+  filter: brightness(0.7);
+}
+</style>
