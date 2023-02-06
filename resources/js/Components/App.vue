@@ -1,6 +1,6 @@
 <template>
   <a
-    href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/api/battlenet/callback&response_type=code&state="
+    href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/api/battlenet/callback&response_type=code&scope=openid&state="
     id="bnetLogin"
     >Login with Battle.net</a
   >
@@ -33,6 +33,8 @@ export default {
       praiseModal: false,
       charFetching: false,
       results: {},
+      authCode: "",
+      token: "",
     };
   },
   components: {
@@ -51,6 +53,17 @@ export default {
     charFetchingListener: function () {
       this.charFetching = true;
     },
+  },
+  created: async function () {
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("code")) {
+      this.authCode = urlParams.get("code");
+      const res = await fetch(`/api/battlenet/auth/${this.authCode}`, {
+        method: "GET",
+      });
+      const data = await res.json();
+      this.token = data;
+    }
   },
 };
 </script>

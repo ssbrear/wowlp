@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use BlizzardApi\Enumerators\Region;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RealmController;
+use App\Http\Controllers\PraiseController;
 use App\Http\Controllers\CharacterController;
 \BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
 \BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
@@ -28,6 +29,7 @@ Route::get('/realms/{realm_name}/characters/{character_name}', [CharacterControl
 Route::get('/battlenet/callback', function() {
     return view('welcome');
 });
+Route::get('/battlenet/auth/{code}', [PraiseController::class, 'battlenetAuth']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

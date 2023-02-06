@@ -7,57 +7,40 @@ use Illuminate\Http\Request;
 class PraiseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Use authorization code to get access token for OAuth 2.0 Authorization
      *
+     * @param  string  $code
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+    public function battlenetAuth($code) {
+        $postFields = [
+            'redirect_uri' => 'http://localhost:8000/api/battlenet/callback',
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'scope' => 'openid',
+        ];
+        $curl_handle = curl_init();
+        try {
+            curl_setopt($curl_handle, CURLOPT_URL, 'https://oauth.battle.net/token');
+            curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $postFields);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl_handle, CURLOPT_HTTPHEADER, [
+                'Content-Type: multipart/form-data',
+                'Authorization: Basic '.base64_encode($_ENV["CLIENT_ID"] . ':' . $_ENV["CLIENT_SECRET"])
+            ]);
+            
+            $response = curl_exec($curl_handle);
+            $status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            if ($status !== 200) {
+                throw new \Exception;
+            }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            $token = json_decode($response);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            return $token;
+        } finally {
+            curl_close($curl_handle);
+        }
     }
 }
