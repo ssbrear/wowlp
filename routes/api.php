@@ -5,8 +5,8 @@ use Illuminate\Http\Request;
 use BlizzardApi\Enumerators\Region;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RealmController;
-use App\Http\Controllers\PraiseController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\AccessTokenController;
 \BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
 \BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
 \BlizzardApi\Configuration::$region = Region::US;
@@ -26,10 +26,7 @@ Route::get('/characters', [CharacterController::class, 'index']);
 Route::post('/characters', [CharacterController::class, 'store']);
 Route::get('/realms/{realm_name}/characters/{character_name}', [CharacterController::class, 'show']);
 
-Route::get('/battlenet/callback', function() {
-    return view('welcome');
-});
-Route::get('/battlenet/auth/{code}', [PraiseController::class, 'battlenetAuth']);
+Route::get('/access-token/{code}', [AccessTokenController::class, 'getAccessToken']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

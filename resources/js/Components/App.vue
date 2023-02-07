@@ -1,6 +1,6 @@
 <template>
-  <a
-    href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/api/battlenet/callback&response_type=code&scope=openid&state="
+  <a v-if="!token"
+    href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/redirect&response_type=code&scope=openid&state="
     id="bnetLogin"
     >Login with Battle.net</a
   >
@@ -9,6 +9,7 @@
     <span class="switch"></span>
   </label>
   <h1>WoW LP</h1>
+  <h4 v-if="battletag">{{ battletag }}</h4>
   <SearchForm
     @char-data="charDataListener"
     @char-fetching="charFetchingListener"
@@ -34,7 +35,8 @@ export default {
       charFetching: false,
       results: {},
       authCode: "",
-      token: "",
+      token: null,
+      battletag: null,
     };
   },
   components: {
@@ -54,17 +56,15 @@ export default {
       this.charFetching = true;
     },
   },
-  created: async function () {
+  created: async function() {
     let urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("code")) {
-      this.authCode = urlParams.get("code");
-      const res = await fetch(`/api/battlenet/auth/${this.authCode}`, {
-        method: "GET",
-      });
+    if (urlParams.has("access-token")) {
+      this.token = urlParams.get("access-token");
+      const res = await fetch(`https://oauth.battle.net/userinfo?access_token=${this.token}`);
       const data = await res.json();
-      this.token = data;
+      this.battletag = data.battletag;
     }
-  },
+  }
 };
 </script>
 
@@ -107,6 +107,11 @@ export default {
 
 h1 {
   font-size: 4rem;
+  user-select: none;
+  color: var(--primary-text-color);
+  text-align: center;
+}
+h4 {
   user-select: none;
   color: var(--primary-text-color);
   text-align: center;
