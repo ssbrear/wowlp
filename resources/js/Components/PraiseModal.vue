@@ -66,6 +66,7 @@ export default {
         type: praise,
       });
       this.praiseModal();
+      this.$emit('praiseState', true);
     },
   },
 };

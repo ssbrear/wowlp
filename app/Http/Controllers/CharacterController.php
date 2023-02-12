@@ -52,22 +52,30 @@ class CharacterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $realm_name
+     * @param  string  $character_name
      * @return \Illuminate\Http\Response
      */
-    public function show($realm_name, $character_name)
+    public function show(Request $request, $realm_name, $character_name)
     {
         $character_name = ucwords(strtolower($character_name));
         $character = Character::where("name", $character_name)->where("realm", $realm_name)->first();
-        if ($character) {
-            return $character;
-        } else {
+        if (!$character) {
             $characterAttrs = $this->queryBlizzard($realm_name, $character_name);
             $characterAttrs["character_name_realm_name"] = $character_name."_".$realm_name;
             $character = Character::create($characterAttrs);
             $character->save();
-            return $characterAttrs;
         }
+        $response = $character->toArray();
+        if ($request->exists("praiser_id")) {
+            $praiser = $character->praise()->where("praiser_id", $request->get("praiser_id"))->first();
+            if ($praiser) {
+                $response["praised"] = true;
+            }
+        }
+
+        return $response;
     }
 
     /**

@@ -28,10 +28,15 @@
         <a target="_blank" :href="warcraftlogsLink" id="warcraftlogs">Logs</a>
       </div>
     </div>
-    <div id="actions">
-      <button @click="praiseModal">
+    <div v-if="battletag" id="actions">
+      <button v-if="!results.praised" @click="praiseModal">
         <div class="fa-3x">
           <i class="fa-regular fa-heart"></i>
+        </div>
+      </button>
+      <button v-if="results.praised" @click="removePraise">
+        <div class="fa-3x">
+          <i class="fa-solid fa-heart"></i>
         </div>
       </button>
     </div>
@@ -67,12 +72,30 @@ export default {
       race: String,
       class: String,
       headshot: String,
+      prasied: Boolean,
     },
     charFetching: Boolean,
+    battletag: String,
   },
   methods: {
     praiseModal() {
       this.$emit("praiseModal");
+    },
+    async removePraise() {
+      const { data } = await axios.delete("/api/praise", {
+        params: {
+          praiser_id: this.battletag,
+          character_name_realm_name: `${this.results.name}_${this.results.realm}`,
+        },
+      });
+      if (data.status === "200") {
+        this.$emit('praiseState', false);
+      }
+    },
+  },
+  watch: {
+    charFetching: function (newVal, oldVal) {
+      if (newVal === true) this.results.headshot = "";
     },
   },
 };

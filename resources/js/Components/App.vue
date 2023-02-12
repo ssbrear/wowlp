@@ -12,19 +12,23 @@
   <h1>WoW LP</h1>
   <h4 v-if="battletag">{{ battletag }}</h4>
   <SearchForm
+    :battletag="battletag"
     @char-data="charDataListener"
     @char-fetching="charFetchingListener"
   ></SearchForm>
   <CharacterCard
-    @praise-modal="praiseModalListener"
-    v-if="Object.keys(results).length !== 0"
+    :battletag="battletag"
     :results="results"
     :charFetching="charFetching"
+    @praise-modal="praiseModalListener"
+    @praise-state="praiseStateListener"
+    v-if="Object.keys(results).length !== 0"
   ></CharacterCard>
   <PraiseModal
-    :results="results"
     :battletag="battletag"
+    :results="results"
     @praise-modal="praiseModalListener"
+    @praise-state="praiseStateListener"
     v-if="praiseModal"
   >
   </PraiseModal>
@@ -53,6 +57,9 @@ export default {
   methods: {
     praiseModalListener: function () {
       this.praiseModal = !this.praiseModal;
+    },
+    praiseStateListener: function(state) {
+      this.results.praised = state;
     },
     charDataListener: function (data) {
       this.results = data;

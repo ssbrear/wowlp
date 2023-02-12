@@ -57,7 +57,9 @@ export default {
       errors: false,
     };
   },
-  components: {},
+  props: {
+    battletag: String,
+  },
   methods: {
     realmMenu: async function () {
       if (this.realmDropdownActive !== true) {
@@ -68,7 +70,7 @@ export default {
 
       if (this.realms.length === 0) {
         this.realmFetching = true;
-        const {data} = await axios.get("/api/realms");
+        const { data } = await axios.get("/api/realms");
         this.realmFetching = false;
         data.sort((a, b) => a.name > b.name);
         this.realms = data;
@@ -82,9 +84,9 @@ export default {
       this.$emit("charFetching");
       this.charFetching = true;
       const { data } = await axios.get(
-        `/api/realms/${this.form.realm.name}/characters/${this.form.character}`
+        `/api/realms/${this.form.realm.name}/characters/${this.form.character}`,
+        { params: { praiser_id: this.battletag } }
       );
-      this.results = data;
       this.charFetching = false;
       this.$emit("charData", data);
     },
@@ -120,6 +122,8 @@ export default {
 #searchForm {
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 #search-container {
   height: 45px;
@@ -128,8 +132,6 @@ export default {
 }
 
 #search-container select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   text-indent: 1px;
   text-overflow: "";
   display: none;

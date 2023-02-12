@@ -30,4 +30,25 @@ class PraiseController extends Controller
         $praise->save();
         return $praise;
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'praiser_id'=>'required',
+            'character_name_realm_name'=>'required',
+        ]);
+        $character = Character::where("character_name_realm_name", $request->get("character_name_realm_name"))->firstOrFail();
+        $praise = $character->praise()->where("praiser_id", $request->get("praiser_id"))->firstOrFail();
+        $praise->delete();
+        return response()->json([
+            'status'=>'200',
+            'message'=>'Praise successfully removed',
+        ]);
+    }
 }

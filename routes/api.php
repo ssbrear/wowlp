@@ -28,6 +28,7 @@ Route::post('/characters', [CharacterController::class, 'store']);
 Route::get('/realms/{realm_name}/characters/{character_name}', [CharacterController::class, 'show']);
 
 Route::post('/praise', [PraiseController::class, 'store']);
+Route::delete('/praise', [PraiseController::class, 'destroy']);
 
 Route::get('/access-token/{code}', [AccessTokenController::class, 'getAccessToken']);
 
