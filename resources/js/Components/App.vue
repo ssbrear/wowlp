@@ -58,7 +58,7 @@ export default {
     praiseModalListener: function () {
       this.praiseModal = !this.praiseModal;
     },
-    praiseStateListener: function(state) {
+    praiseStateListener: function (state) {
       this.results.praised = state;
     },
     charDataListener: function (data) {

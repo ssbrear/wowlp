@@ -100,6 +100,7 @@ export default {
   top: 5px;
   right: 5px;
   cursor: pointer;
+  color: var(--primary-text-color);
 }
 
 .praise-modal__inner .fa-xmark:hover {

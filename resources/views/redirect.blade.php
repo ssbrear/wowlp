@@ -29,7 +29,7 @@
                 const res = await fetch(`/api/access-token/${this.authCode}`);
                 window.location.href = res.url;
             } else {
-                window.location.ref = "http://localhost:8000";
+                window.location = "http://localhost:8000";
             }
         }
         getAccessToken();
