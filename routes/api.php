@@ -5,10 +5,11 @@ use Illuminate\Http\Request;
 use BlizzardApi\Enumerators\Region;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RealmController;
+use App\Http\Controllers\PraiseController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\AccessTokenController;
-\BlizzardApi\Configuration::$apiKey = $_ENV["CLIENT_ID"];
-\BlizzardApi\Configuration::$apiSecret = $_ENV["CLIENT_SECRET"];
+\BlizzardApi\Configuration::$apiKey = $_ENV['CLIENT_ID'];
+\BlizzardApi\Configuration::$apiSecret = $_ENV['CLIENT_SECRET'];
 \BlizzardApi\Configuration::$region = Region::US;
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +18,16 @@ use App\Http\Controllers\AccessTokenController;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigned the 'api' middleware group. Enjoy building your API!
 |
 */
 
-Route::get("/realms", [RealmController::class, 'index']);
+Route::get('/realms', [RealmController::class, 'index']);
 Route::get('/characters', [CharacterController::class, 'index']);
 Route::post('/characters', [CharacterController::class, 'store']);
 Route::get('/realms/{realm_name}/characters/{character_name}', [CharacterController::class, 'show']);
+
+Route::post('/praise', [PraiseController::class, 'store']);
 
 Route::get('/access-token/{code}', [AccessTokenController::class, 'getAccessToken']);
 

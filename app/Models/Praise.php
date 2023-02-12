@@ -12,11 +12,7 @@ class Praise extends Model
     protected $fillable = [
         'praiser_id',
         'character_id',
-        'pumper',
-        'technical',
-        'leader',
-        'helpful',
-        'attitude',
+        'type',
         'description',
     ];
 

@@ -7,6 +7,7 @@
         v-for="(praise, index) in praiseTypes"
         :key="index"
         :id="praise.text"
+        @click="postPraise(praise.text)"
       >
         <span class="fa-3x" v-html="praise.icon"></span>
         {{ praise.text }}
@@ -43,9 +44,28 @@ export default {
       ],
     };
   },
+  props: {
+    battletag: String,
+    results: {
+      name: String,
+      guild: String,
+      realm: String,
+      race: String,
+      class: String,
+      headshot: String,
+    },
+  },
   methods: {
     praiseModal: function () {
       this.$emit("praiseModal");
+    },
+    postPraise: async function (praise) {
+      const res = await axios.post("/api/praise", {
+        praiser_id: this.battletag,
+        character_name_realm_name: `${this.results.name}_${this.results.realm}`,
+        type: praise,
+      });
+      this.praiseModal();
     },
   },
 };

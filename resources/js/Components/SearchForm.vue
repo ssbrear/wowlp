@@ -68,11 +68,8 @@ export default {
 
       if (this.realms.length === 0) {
         this.realmFetching = true;
-        const res = await fetch("/api/realms", {
-          method: "GET",
-        });
+        const {data} = await axios.get("/api/realms");
         this.realmFetching = false;
-        const data = await res.json();
         data.sort((a, b) => a.name > b.name);
         this.realms = data;
       }
@@ -84,13 +81,9 @@ export default {
     search: async function () {
       this.$emit("charFetching");
       this.charFetching = true;
-      const res = await fetch(
-        `/api/realms/${this.form.realm.name}/characters/${this.form.character}`,
-        {
-          method: "GET",
-        }
+      const { data } = await axios.get(
+        `/api/realms/${this.form.realm.name}/characters/${this.form.character}`
       );
-      const data = await res.json();
       this.results = data;
       this.charFetching = false;
       this.$emit("charData", data);

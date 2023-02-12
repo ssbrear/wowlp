@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('headshot');
             $table->string('guild')->nullable();
             $table->timestamps();
+
+            $table->unique(['name', 'realm']);
         });
     }
 

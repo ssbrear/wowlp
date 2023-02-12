@@ -1,5 +1,6 @@
 <template>
-  <a v-if="!token"
+  <a
+    v-if="!token"
     href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/redirect&response_type=code&scope=openid&state="
     id="bnetLogin"
     >Login with Battle.net</a
@@ -20,7 +21,12 @@
     :results="results"
     :charFetching="charFetching"
   ></CharacterCard>
-  <PraiseModal @praise-modal="praiseModalListener" v-if="praiseModal">
+  <PraiseModal
+    :results="results"
+    :battletag="battletag"
+    @praise-modal="praiseModalListener"
+    v-if="praiseModal"
+  >
   </PraiseModal>
 </template>
 
@@ -56,15 +62,16 @@ export default {
       this.charFetching = true;
     },
   },
-  created: async function() {
+  created: async function () {
     let urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("access-token")) {
       this.token = urlParams.get("access-token");
-      const res = await fetch(`https://oauth.battle.net/userinfo?access_token=${this.token}`);
-      const data = await res.json();
+      const { data } = await axios.get(
+        `https://oauth.battle.net/userinfo?access_token=${this.token}`
+      );
       this.battletag = data.battletag;
     }
-  }
+  },
 };
 </script>
 

@@ -26,9 +26,7 @@
             let urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has("code")) {
                 this.authCode = urlParams.get("code");
-                const res = await fetch(`/api/access-token/${this.authCode}`, {
-                    method: "GET",
-                });
+                const res = await fetch(`/api/access-token/${this.authCode}`);
                 window.location.href = res.url;
             } else {
                 window.location.ref = "http://localhost:8000";

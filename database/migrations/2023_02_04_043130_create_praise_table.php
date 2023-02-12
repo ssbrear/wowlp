@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('praise', function (Blueprint $table) {
+        Schema::create('praises', function (Blueprint $table) {
             $table->id();
-            $table->integer("praiser_id");
+            $table->string("praiser_id");
             $table->integer("character_id");
-            $table->integer("pumper")->default(0);
-            $table->integer("technical")->default(0);
-            $table->integer("leader")->default(0);
-            $table->integer("helpful")->default(0);
-            $table->integer("attitude")->default(0);
+            $table->string("type");
             $table->string("description")->nullable();
             $table->timestamps();
+
+            $table->unique(['praiser_id', 'character_id']);
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('praise');
+        Schema::dropIfExists('praises');
     }
 };
