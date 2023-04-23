@@ -24,7 +24,7 @@ class Character extends Model
     {
         return $this->belongsTo(Realm::class, "realm", "name");
     }
-    public function praise()
+    public function praises()
     {
         return $this->hasMany(Praise::class);
     }

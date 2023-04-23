@@ -10,7 +10,7 @@
     <span class="switch"></span>
   </label>
   <h1>WoW LP</h1>
-  <h4 v-if="battletag">{{ battletag }}</h4>
+  <h4>{{ battletag }}</h4>
   <SearchForm
     :battletag="battletag"
     @char-data="charDataListener"
@@ -22,6 +22,7 @@
     :charFetching="charFetching"
     @praise-modal="praiseModalListener"
     @praise-state="praiseStateListener"
+    @ranking-modal="rankingModalListener"
     v-if="Object.keys(results).length !== 0"
   ></CharacterCard>
   <PraiseModal
@@ -32,16 +33,27 @@
     v-if="praiseModal"
   >
   </PraiseModal>
+  <RankingModal
+    :praises="results.praises"
+    :charId="results.id"
+    @ranking-modal="rankingModalListener"
+    @praiseUpdate="praiseUpdateListener"
+    v-if="rankingModal"
+  >
+  </RankingModal>
 </template>
 
 <script>
 import SearchForm from "./SearchForm.vue";
 import CharacterCard from "./CharacterCard.vue";
 import PraiseModal from "./PraiseModal.vue";
+import RankingModal from "./RankingModal.vue";
+
 export default {
   data() {
     return {
       praiseModal: false,
+      rankingModal: false,
       charFetching: false,
       results: {},
       authCode: "",
@@ -53,10 +65,14 @@ export default {
     SearchForm: SearchForm,
     CharacterCard: CharacterCard,
     PraiseModal: PraiseModal,
+    RankingModal: RankingModal,
   },
   methods: {
     praiseModalListener: function () {
       this.praiseModal = !this.praiseModal;
+    },
+    rankingModalListener: function () {
+      this.rankingModal = !this.rankingModal;
     },
     praiseStateListener: function (state) {
       this.results.praised = state;
@@ -68,6 +84,9 @@ export default {
     charFetchingListener: function () {
       this.charFetching = true;
     },
+    praiseUpdateListener: function(data) {
+      this.results.praises = data;
+    }
   },
   created: async function () {
     let urlParams = new URLSearchParams(window.location.search);
@@ -122,12 +141,13 @@ export default {
 h1 {
   font-size: 4rem;
   user-select: none;
-  color: var(--primary-text-color);
+  color: #121212;
   text-align: center;
 }
 h4 {
   user-select: none;
-  color: var(--primary-text-color);
+  color: #121212;
   text-align: center;
+  height: 22px;
 }
 </style>

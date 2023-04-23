@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 class PraiseController extends Controller
 {
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id) {
+        return Praise::where("character_id", $id)->get()->toArray();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

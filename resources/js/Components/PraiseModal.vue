@@ -53,6 +53,7 @@ export default {
       race: String,
       class: String,
       headshot: String,
+      praises: Array,
     },
   },
   methods: {
@@ -111,7 +112,6 @@ export default {
   flex: auto;
   background-color: var(--secondary-background-color);
   color: var(--secondary-text-color);
-  outline: none;
   border: none;
   cursor: pointer;
   display: flex;

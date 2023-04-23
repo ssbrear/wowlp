@@ -35,7 +35,9 @@
         placeholder="Search characters..."
       />
       <button type="submit"><i class="fa-solid fa-search"></i></button>
-      <div id="search-container__errors" :class="errors ? 'active' : ''"></div>
+      <div id="search-container__errors" :class="errors ? 'active' : ''">
+        Something went wrong, please try again.
+      </div>
     </form>
   </div>
 </template>
@@ -83,10 +85,28 @@ export default {
     search: async function () {
       this.$emit("charFetching");
       this.charFetching = true;
-      const { data } = await axios.get(
-        `/api/realms/${this.form.realm.name}/characters/${this.form.character}`,
-        { params: { praiser_id: this.battletag } }
-      );
+      const { data } = await axios
+        .get(
+          `/api/realms/${this.form.realm.name}/characters/${this.form.character}`,
+          { params: { praiser_id: this.battletag } }
+        )
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error: ", error.message);
+          }
+          console.log(error.config);
+          this.errors = true;
+          const self = this;
+          setTimeout(() => {
+            self.errors = false;
+          }, 5000);
+        });
       this.charFetching = false;
       this.$emit("charData", data);
     },
@@ -207,16 +227,21 @@ export default {
   position: absolute;
   width: 100%;
   min-height: 100%;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgb(255, 100, 100);
   color: black;
-  top: 100%;
+  top: 0;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  transition: 0.5s top ease-in-out;
+  z-index: -1;
 }
 
 #search-container__errors.active {
-  display: flex;
+  top: 100%;
 }
 </style>

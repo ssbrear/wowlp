@@ -28,14 +28,24 @@
         <a target="_blank" :href="warcraftlogsLink" id="warcraftlogs">Logs</a>
       </div>
     </div>
+    <div id="ranking">
+      <button @click="rankingModal">
+        <i class="fa-solid fa-ranking-star"></i>
+        LP
+      </button>
+    </div>
     <div v-if="battletag" id="actions">
-      <button v-if="!results.praised" @click="praiseModal">
-        <div class="fa-3x">
+      <button aria-label="praise" v-if="!results.praised" @click="praiseModal">
+        <div class="fa-2x">
           <i class="fa-regular fa-heart"></i>
         </div>
       </button>
-      <button v-if="results.praised" @click="removePraise">
-        <div class="fa-3x">
+      <button
+        aria-label="remove praise"
+        v-if="results.praised"
+        @click="removePraise"
+      >
+        <div class="fa-2x">
           <i class="fa-solid fa-heart"></i>
         </div>
       </button>
@@ -81,6 +91,9 @@ export default {
     praiseModal() {
       this.$emit("praiseModal");
     },
+    rankingModal() {
+      this.$emit("rankingModal");
+    },
     async removePraise() {
       const { data } = await axios.delete("/api/praise", {
         params: {
@@ -89,7 +102,7 @@ export default {
         },
       });
       if (data.status === "200") {
-        this.$emit('praiseState', false);
+        this.$emit("praiseState", false);
       }
     },
   },
@@ -136,14 +149,30 @@ a {
   font-weight: 700;
 }
 
+#ranking {
+  margin-left: auto;
+  display: flex;
+}
+#ranking button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--primary-text-color);
+}
+#ranking i {
+  color: var(--primary-color);
+}
+
 #actions {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 #actions button {
-  outline: none;
   background-color: transparent;
   border: none;
   cursor: pointer;

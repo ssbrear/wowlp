@@ -60,7 +60,7 @@ class CharacterController extends Controller
     public function show(Request $request, $realm_name, $character_name)
     {
         $character_name = ucwords(strtolower($character_name));
-        $character = Character::where("name", $character_name)->where("realm", $realm_name)->first();
+        $character = Character::where("name", $character_name)->where("realm", $realm_name)->with('praises')->first();
         if (!$character) {
             $characterAttrs = $this->queryBlizzard($realm_name, $character_name);
             $characterAttrs["character_name_realm_name"] = $character_name."_".$realm_name;
@@ -68,13 +68,13 @@ class CharacterController extends Controller
             $character->save();
         }
         $response = $character->toArray();
+        $response["praised"] = false;
         if ($request->exists("praiser_id")) {
-            $praiser = $character->praise()->where("praiser_id", $request->get("praiser_id"))->first();
-            if ($praiser) {
+            $praiseExists = $character->praises->where("praiser_id", $request->get("praiser_id"))->isEmpty();
+            if (!$praiseExists) {
                 $response["praised"] = true;
             }
         }
-
         return $response;
     }
 
