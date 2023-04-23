@@ -16,7 +16,12 @@ class Praise extends Model
         'description',
     ];
 
-    public function character() {
+    public function character()
+    {
         return $this->belongsTo(Character::class);
+    }
+    public function battletag()
+    {
+        return $this->belongsTo(Battletag::class, 'praiser_id', 'battletag');
     }
 }

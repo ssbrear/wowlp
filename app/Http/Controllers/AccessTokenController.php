@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Battletag;
 use Illuminate\Http\Request;
 
 class AccessTokenController extends Controller
 {
-    public function getUserInfo(Request $request) {
-        // Non-secure solution. Replace this with server-side caching/cookies
-        return redirect()->route('welcome', ["access-token" => $request->get('access_token')]);
-    }
     public function getAccessToken($code) {
         $postFields = [
             'redirect_uri' => 'http://localhost:8000/redirect',
@@ -31,13 +28,40 @@ class AccessTokenController extends Controller
             $status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
 
             if ($status !== 200) {
-                throw new \Exception;
+                dd($response);
             }
 
-            $token = json_decode($response);
-            $requestToken = new Request((array)$token);
+            $access_token = json_decode($response)->access_token;
 
-            return $this->getUserInfo($requestToken);
+            return $this->getUserInfo($access_token);
+        } finally {
+            curl_close($curl_handle);
+        }
+    }
+    public function getUserInfo($access_token) {
+        $curl_handle = curl_init();
+        try {
+            curl_setopt($curl_handle, CURLOPT_URL, 'https://oauth.battle.net/userinfo?access_token='.$access_token);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($curl_handle);
+            $status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
+
+            if ($status !== 200) {
+                throw new \Exception;
+            }
+            
+            $battletag = json_decode($response)->battletag;
+
+            $battletagQuery = Battletag::where("battletag", $battletag);
+            if (!$battletagQuery->exists()) {
+                $newBattletag = BattleTag::create(["battletag" => $battletag]);
+                $newBattletag->save();
+            } else {
+                $battletagQuery->first()->update();
+            }
+            return redirect()->route('welcome', ["battletag" => $battletag]);
+            
         } finally {
             curl_close($curl_handle);
         }

@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="!token"
+    v-if="!battletag"
     href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/redirect&response_type=code&scope=openid&state="
     id="bnetLogin"
     >Login with Battle.net</a
@@ -57,7 +57,6 @@ export default {
       charFetching: false,
       results: {},
       authCode: "",
-      token: null,
       battletag: null,
     };
   },
@@ -84,18 +83,30 @@ export default {
     charFetchingListener: function () {
       this.charFetching = true;
     },
-    praiseUpdateListener: function(data) {
+    praiseUpdateListener: function (data) {
       this.results.praises = data;
-    }
+    },
   },
   created: async function () {
     let urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("access-token")) {
-      this.token = urlParams.get("access-token");
-      const { data } = await axios.get(
-        `https://oauth.battle.net/userinfo?access_token=${this.token}`
-      );
-      this.battletag = data.battletag;
+    if (urlParams.has("battletag")) {
+      const battletag = urlParams.get("battletag");
+      const [battletagString, battletagNum] = battletag.split("#");
+      const { data } = await axios
+        .get(`/api/battletag-str/${battletagString}/battletag-num/${battletagNum}`)
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error: ", error.message);
+          }
+          console.log(error.config);
+        });
+      this.battletag = data;
     }
   },
 };

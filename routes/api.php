@@ -8,6 +8,7 @@ use App\Http\Controllers\RealmController;
 use App\Http\Controllers\PraiseController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\AccessTokenController;
+use App\Http\Controllers\BattletagController;
 \BlizzardApi\Configuration::$apiKey = $_ENV['CLIENT_ID'];
 \BlizzardApi\Configuration::$apiSecret = $_ENV['CLIENT_SECRET'];
 \BlizzardApi\Configuration::$region = Region::US;
@@ -32,6 +33,7 @@ Route::delete('/praise', [PraiseController::class, 'destroy']);
 Route::get('/praise/{character_id}', [PraiseController::class, 'show']);
 
 Route::get('/access-token/{code}', [AccessTokenController::class, 'getAccessToken']);
+Route::get('/battletag-str/{battletagString}/battletag-num/{battletagNum}', [BattletagController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
