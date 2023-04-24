@@ -27,7 +27,8 @@
             if (urlParams.has("code")) {
                 this.authCode = urlParams.get("code");
                 const res = await fetch(`/api/access-token/${this.authCode}`);
-                window.location.href = res.url;
+                console.log(res);
+                // window.location.href = res.url;
             } else {
                 window.location = window.location.protocol + "//" + window.location.hostname;
             }
