@@ -62,7 +62,7 @@ class AccessTokenController extends Controller
             } else {
                 $battletagQuery->first()->update();
             }
-            return redirect()->route('welcome', ["battletag" => $battletag]);
+            return $battletag;
             
         } finally {
             curl_close($curl_handle);

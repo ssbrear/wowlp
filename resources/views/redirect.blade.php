@@ -27,10 +27,10 @@
             if (urlParams.has("code")) {
                 this.authCode = urlParams.get("code");
                 const res = await fetch(`/api/access-token/${this.authCode}`);
-                console.log(res);
-                // window.location.href = res.url;
+                const battletag = await res.text();
+                window.location = `${window.origin}?battletag=${battletag}`
             } else {
-                window.location = window.location.protocol + "//" + window.location.hostname;
+                window.location = window.origin;
             }
         }
         getAccessToken();
