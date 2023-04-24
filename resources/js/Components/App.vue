@@ -1,8 +1,5 @@
 <template>
-  <a
-    v-if="!battletag"
-    href="https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=http://localhost:8000/redirect&response_type=code&scope=openid&state="
-    id="bnetLogin"
+  <a v-if="!battletag" :href="loginLink" id="bnetLogin"
     >Login with Battle.net</a
   >
   <label for="themeToggle" class="switchContainer">
@@ -58,6 +55,13 @@ export default {
       results: {},
       authCode: "",
       battletag: null,
+
+      loginLink:
+        "https://us.battle.net/oauth/authorize?client_id=ffc047e876f54c678c3a554f461fa617&redirect_uri=" +
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        "/redirect&response_type=code&scope=openid&state=",
     };
   },
   components: {
@@ -93,7 +97,9 @@ export default {
       const battletag = urlParams.get("battletag");
       const [battletagString, battletagNum] = battletag.split("#");
       const { data } = await axios
-        .get(`/api/battletag-str/${battletagString}/battletag-num/${battletagNum}`)
+        .get(
+          `/api/battletag-str/${battletagString}/battletag-num/${battletagNum}`
+        )
         .catch((error) => {
           if (error.response) {
             console.log(error.response.data);
