@@ -40,7 +40,6 @@ class AccessTokenController extends Controller
 
             $access_token = json_decode($response)->access_token;
             \Log::error('access_token: '.$access_token);
-            return $response;
             return $this->getUserInfo($access_token);
         } finally {
             curl_close($curl_handle);
@@ -69,7 +68,7 @@ class AccessTokenController extends Controller
             } else {
                 $battletagQuery->first()->update();
             }
-            return $response;
+            return $battletag;
             
         } finally {
             curl_close($curl_handle);
