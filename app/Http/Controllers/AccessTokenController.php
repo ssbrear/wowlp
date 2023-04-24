@@ -52,6 +52,8 @@ class AccessTokenController extends Controller
             if ($status !== 200) {
                 throw new \Exception;
             }
+
+            dd($response);
             
             $battletag = json_decode($response)->battletag;
 

@@ -95,6 +95,7 @@ export default {
     let urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("battletag")) {
       const battletag = urlParams.get("battletag");
+      if (!battletag.includes("#")) return;
       const [battletagString, battletagNum] = battletag.split("#");
       const { data } = await axios
         .get(
