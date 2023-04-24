@@ -34,7 +34,7 @@ class AccessTokenController extends Controller
             }
 
             $access_token = json_decode($response)->access_token;
-            error_log('access_token: '.$access_token);
+            \Log::error('access_token: '.$access_token);
             return $this->getUserInfo($access_token);
         } finally {
             curl_close($curl_handle);
@@ -54,7 +54,7 @@ class AccessTokenController extends Controller
             }
             
             $battletag = json_decode($response)->battletag;
-            error_log('battletag: '.$battletag);
+            \Log::error($battletag);
 
             $battletagQuery = Battletag::where("battletag", $battletag);
             if (!$battletagQuery->exists()) {
