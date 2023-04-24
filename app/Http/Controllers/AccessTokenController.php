@@ -9,7 +9,7 @@ class AccessTokenController extends Controller
 {
     public function getAccessToken(Request $request, $code) {
         $host = $request->getHttpHost();
-        if ($host !== "localhost:8000" && $host !== "intense-sierra-71683.herokuapp.com" && host !== "wow-lp.com") return;
+        if ($host !== "localhost:8000" && $host !== "intense-sierra-71683.herokuapp.com" && $host !== "wow-lp.com") return;
         $postFields = [
             'redirect_uri' => $request->getHttpHost(),
             'grant_type' => 'authorization_code',
