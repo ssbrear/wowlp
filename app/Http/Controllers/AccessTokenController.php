@@ -63,7 +63,7 @@ class AccessTokenController extends Controller
             } else {
                 $battletagQuery->first()->update();
             }
-            return $battletag;
+            return $response;
             
         } finally {
             curl_close($curl_handle);
