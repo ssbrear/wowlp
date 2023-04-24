@@ -30,7 +30,7 @@
                 const res = await fetch(`/api/access-token/${this.authCode}`);
                 const battletag = await res.text();
                 console.log("Battletag: " + battletag);
-                window.location = `${window.origin}?battletag=${battletag}`;
+                window.location = `${window.origin}?battletag=${battletag.replace("#", "%23")}`;
             } else {
                 window.location = window.origin;
             }
