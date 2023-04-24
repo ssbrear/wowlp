@@ -34,7 +34,7 @@ class AccessTokenController extends Controller
             }
 
             $access_token = json_decode($response)->access_token;
-
+            error_log('access_token: '.$access_token);
             return $this->getUserInfo($access_token);
         } finally {
             curl_close($curl_handle);
@@ -52,16 +52,14 @@ class AccessTokenController extends Controller
             if ($status !== 200) {
                 throw new \Exception;
             }
-
-            dd($response);
             
             $battletag = json_decode($response)->battletag;
+            error_log('battletag: '.$battletag);
 
             $battletagQuery = Battletag::where("battletag", $battletag);
             if (!$battletagQuery->exists()) {
                 $newBattletag = BattleTag::create(["battletag" => $battletag]);
                 $newBattletag->save();
-                dd($newBattletag);
             } else {
                 $battletagQuery->first()->update();
             }
