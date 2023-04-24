@@ -59,6 +59,7 @@ class AccessTokenController extends Controller
             if (!$battletagQuery->exists()) {
                 $newBattletag = BattleTag::create(["battletag" => $battletag]);
                 $newBattletag->save();
+                dd($newBattletag);
             } else {
                 $battletagQuery->first()->update();
             }

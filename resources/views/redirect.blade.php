@@ -28,7 +28,8 @@
                 this.authCode = urlParams.get("code");
                 const res = await fetch(`/api/access-token/${this.authCode}`);
                 const battletag = await res.text();
-                window.location = `${window.origin}?battletag=${battletag}`
+                console.log("Battletag: " + battletag);
+                window.location = `${window.origin}?battletag=${battletag}`;
             } else {
                 window.location = window.origin;
             }
