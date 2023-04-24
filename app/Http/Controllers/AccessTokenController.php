@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 class AccessTokenController extends Controller
 {
     public function getAccessToken(Request $request, $code) {
+        $host = $request->getHttpHost();
+        if (
+            $host !== "localhost:8000"
+            && $host !== "www.wow-lp.com"
+            && $host !== "wow-lp.herokuapp.com"
+            ) return 'Invalid domain';
+        $protocolHost = $host === "localhost:8000" ? 'http://'.$host : 'https://'.$host;
         $postFields = [
             'redirect_uri' => $protocolHost.'/redirect',
             'grant_type' => 'authorization_code',
