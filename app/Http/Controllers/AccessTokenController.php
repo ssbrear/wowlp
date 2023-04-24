@@ -9,15 +9,14 @@ class AccessTokenController extends Controller
 {
     public function getAccessToken(Request $request, $code) {
         $protocolHost = $request->getSchemeAndHttpHost();
+        if ($protocolHost === "http://www.wow-lp.com" || $protocolHost === "http://wow-lp.herokuapp.com") {
+            preg_replace('http', 'https', $protocolHost);
+        }
         if (
             $protocolHost !== "http://localhost:8000"
-            && $protocolHost !== "https://intense-sierra-71683.herokuapp.com"
-            && $protocolHost !== "https://intense-sierra-71683.herokuapp.com"
             && $protocolHost !== "https://www.wow-lp.com"
-            && $protocolHost !== "http://www.wow-lp.com"
             && $protocolHost !== "https://wow-lp.herokuapp.com"
-            && $protocolHost !== "http://wow-lp.herokuapp.com")
-                return 'Invalid domain';
+            ) return 'Invalid domain';
         $postFields = [
             'redirect_uri' => $protocolHost.'/redirect',
             'grant_type' => 'authorization_code',
