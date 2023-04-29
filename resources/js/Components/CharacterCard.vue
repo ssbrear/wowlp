@@ -11,7 +11,7 @@
     <div id="info">
       <div id="individual">
         <div id="character_name">{{ results.name }}</div>
-        <span>-</span>
+        <span class="delimeter">-</span>
         <div id="race">{{ results.race }}</div>
         <div id="class" :class="results.class.replace(/\s/g, '')">
           {{ results.class }}
@@ -188,5 +188,49 @@ a {
 }
 .loading {
   background-color: var(--secondary-background-color);
+}
+@media (max-width: 820px) {
+  #character-card {
+    padding: 10px;
+    max-width: 400px;
+    margin-top: 6em;
+  }
+  #headshot {
+    position: absolute;
+    height: 90px;
+    width: 90px;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    border-radius: 50%;
+    border: 5px solid var(--secondary-background-color);
+  }
+  #info * {
+    font-size: 14px;
+  }
+  #individual {
+    display: flex;
+    flex-direction: column;
+  }
+  #group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #guild {
+    font-size: 16px;
+    flex: 100%;
+  }
+  .delimeter {
+    display: none;
+  }
+  #ranking button {
+    font-size: 16px;
+  }
+  #actions {
+    top: 0;
+  }
+  #actions i {
+    font-size: 20px;
+  }
 }
 </style>

@@ -173,4 +173,9 @@ h3 a {
   font-size: inherit;
   text-shadow: black 0 0 5px;
 }
+@media (max-width: 820px) {
+  h1 {
+    font-size: 40px;
+  }
+}
 </style>

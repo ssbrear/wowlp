@@ -98,9 +98,10 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../../public/background.jpg');
+    background-image: url('../../public/highres_desktop_background.jpg'), url('../../public/lowres_desktop_background.jpg');
     background-repeat: no-repeat;
     background-size: 100% auto;
+    background-position: center;
     z-index: -1;
     opacity: 0.7;
 }
@@ -108,7 +109,11 @@ body::before {
 @media (max-aspect-ratio: 3982/1594) {
     body::before {
         background-size: auto 100%;
-        background-position: center;
+    }
+}
+@media (max-aspect-ratio: 1195/1594) {
+    body::before {
+        background-image: url('../../public/highres_phone_background.jpg'), url('../../public/lowres_phone_background.jpg');
     }
 }
 
@@ -133,4 +138,5 @@ a:hover {
 
 #app {
     font-family: Cinzel;
+    margin: 100px 20px 0;
 }

@@ -29,12 +29,14 @@
           {{ realm.name }}
         </option>
       </select>
-      <input
-        type="text"
-        v-model="form.character"
-        placeholder="Search characters..."
-      />
-      <button type="submit"><i class="fa-solid fa-search"></i></button>
+      <div id="search-container__inner">
+        <input
+          type="text"
+          v-model="form.character"
+          placeholder="Search characters..."
+        />
+        <button type="submit"><i class="fa-solid fa-search"></i></button>
+      </div>
       <div id="search-container__errors" :class="errors ? 'active' : ''">
         Something went wrong, please try again.
       </div>
@@ -144,11 +146,14 @@ export default {
   justify-content: center;
   position: relative;
   z-index: 1;
+  max-width: 587px;
+  margin: auto;
 }
 #search-container {
-  height: 45px;
   display: flex;
   position: relative;
+  height: 45px;
+  width: 100%;
 }
 
 #search-container select {
@@ -157,7 +162,7 @@ export default {
   display: none;
 }
 
-#search-container #fake-select {
+#fake-select {
   border-radius: 0;
   border: none;
   width: 240px;
@@ -173,7 +178,7 @@ export default {
   position: relative;
 }
 
-#search-container #fake-select__dropdown {
+#fake-select__dropdown {
   position: absolute;
   flex-direction: column;
   background-color: var(--secondary-background-color);
@@ -184,23 +189,28 @@ export default {
   width: 100%;
 }
 
-#search-container #fake-select__dropdown div {
+#fake-select__dropdown div {
   padding: 5px 20px;
   transition: 0.3s;
 }
 
-#search-container #fake-select__dropdown div:hover {
+#fake-select__dropdown div:hover {
   background-color: #bbbbbb;
+}
+
+#search-container__inner {
+  position: relative;
 }
 
 #search-container input {
   border: none;
-  min-width: 300px;
   padding-right: 40px;
   padding-left: 20px;
   font-family: inherit;
   font-weight: 500;
   font-size: 1.25rem;
+  height: 100%;
+  width: 100%;
 }
 
 #search-container input:focus-visible {
@@ -243,5 +253,20 @@ export default {
 
 #search-container__errors.active {
   top: 100%;
+}
+
+@media (max-width: 820px) {
+  #search-container {
+    flex-direction: column;
+    height: 90px;
+    max-width: 500px;
+  }
+  #search-container > * {
+    height: 50%;
+    width: 100%;
+  }
+  #fake-select {
+    order: 1;
+  }
 }
 </style>
