@@ -32,7 +32,7 @@ class RealmController extends Controller
             }
             Realm::upsert($formattedData, ['id'], ['name', 'slug']);
         }
-        return Realm::all();
+        return Realm::orderBy('name')->get();
     }
 
     /**
