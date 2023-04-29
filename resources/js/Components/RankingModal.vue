@@ -9,7 +9,7 @@
         :id="praise.text"
         @click="postPraise(praise.text)"
       >
-        <div class="bar">{{ praise.count }}</div>
+        <div class="bar">{{ praise.count == 0 ? '' : praise.count}}</div>
         <span v-html="praise.icon"></span>
         {{ praise.text }}
       </div>
@@ -85,9 +85,9 @@ export default {
       bars.forEach((bar, i) => {
         const amount = self.praiseTypes[i].count;
         if (self.maxCategoryAmount === 0) {
-          bar.style.height = "0%";
+          bar.style.height = "0px";
         } else {
-          bar.style.height = (100 * amount) / self.maxCategoryAmount + "%";
+          bar.style.height = (amount / self.maxCategoryAmount) * 145 + "px";
         }
         if (amount !== 0) {
           bar.classList.add("exists");
@@ -178,10 +178,9 @@ export default {
 }
 .type .bar {
   width: 100%;
-  height: 30px;
+  height: 0;
   text-align: center;
   transition: 1s ease-in-out;
-  min-height: 30px;
 }
 .type .bar.exists {
   background-color: var(--primary-color);
