@@ -11,8 +11,8 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="light"] {
-    --primary-background-color: #ababab;
-    --secondary-background-color: #dedede;
+    --primary-background-color: #575757;
+    --secondary-background-color: #cdcdcd;
     --primary-text-color: #121212;
     --secondary-text-color: #343434;
 }
