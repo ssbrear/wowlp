@@ -1,13 +1,13 @@
 <template>
-  <a v-if="!battletag" :href="loginLink" id="bnetLogin"
-    >Login with Battle.net</a
-  >
   <label for="themeToggle" class="switchContainer">
     <input id="themeToggle" type="checkbox" />
     <span class="switch"></span>
   </label>
   <h1>WoW LP</h1>
-  <h4>{{ battletag }}</h4>
+  <h3 v-if="battletag">{{ battletag }}</h3>
+  <h3 v-if="!battletag">
+    <a :href="loginLink" id="bnetLogin">Login with Battle.net</a>
+  </h3>
   <SearchForm
     :battletag="battletag"
     @char-data="charDataListener"
@@ -162,10 +162,15 @@ h1 {
   color: #121212;
   text-align: center;
 }
-h4 {
+h3 {
   user-select: none;
   color: #121212;
   text-align: center;
   height: 22px;
+  font-size: 18px;
+}
+h3 a {
+  font-size: inherit;
+  text-shadow: black 0 0 5px;
 }
 </style>

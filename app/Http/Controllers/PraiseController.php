@@ -54,7 +54,7 @@ class PraiseController extends Controller
             'character_name_realm_name'=>'required',
         ]);
         $character = Character::where("character_name_realm_name", $request->get("character_name_realm_name"))->firstOrFail();
-        $praise = $character->praise()->where("praiser_id", $request->get("praiser_id"))->firstOrFail();
+        $praise = $character->praises()->where("praiser_id", $request->get("praiser_id"))->firstOrFail();
         $praise->delete();
         return response()->json([
             'status'=>'200',

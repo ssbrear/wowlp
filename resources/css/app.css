@@ -1,6 +1,6 @@
 :root {
     --primary-color: #ff8000;
-    --primary-color-highlight: #aa6000;
+    --primary-color-highlight: #ffd444;
 }
 
 html[data-theme="dark"] {
