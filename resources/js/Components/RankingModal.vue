@@ -9,7 +9,7 @@
         :id="praise.text"
         @click="postPraise(praise.text)"
       >
-        <div class="bar">{{ numPraisesOfType[index] }}</div>
+        <div class="bar">{{ praise.count }}</div>
         <span v-html="praise.icon"></span>
         {{ praise.text }}
       </div>
@@ -25,24 +25,30 @@ export default {
         {
           text: "Pumper",
           icon: '<i class="fa-solid fa-dumbbell"></i>',
+          count: 0,
         },
         {
           text: "Technical",
           icon: '<i class="fa-solid fa-gears"></i>',
+          count: 0,
         },
         {
           text: "Leader",
           icon: '<i class="fa-solid fa-crown"></i>',
+          count: 0,
         },
         {
           text: "Helpful",
           icon: '<i class="fa-solid fa-hands-holding-child"></i>',
+          count: 0,
         },
         {
           text: "Attitude",
           icon: '<i class="fa-solid fa-face-laugh-beam"></i>',
+          count: 0,
         },
       ],
+      maxCategoryAmount: 0,
       updateInterval: null,
     };
   },
@@ -55,7 +61,7 @@ export default {
       clearInterval(this.updateInterval);
       this.$emit("rankingModal");
     },
-    queryPraises: async function (interval) {
+    queryPraises: async function (interval = null) {
       const { data } = await axios
         .get(`/api/praise/${this.charId}`)
         .catch((error) => {
@@ -69,17 +75,20 @@ export default {
             console.log("Error: ", error.message);
           }
           console.log(error.config);
-          clearInterval(interval);
+          if (interval != null) clearInterval(interval);
         });
       this.$emit("praiseUpdate", data);
-      this.updateBars();
     },
     updateBars: function () {
-      const maxCategoryAmount = Math.max(...this.numPraisesOfType);
+      const self = this;
       const bars = document.querySelectorAll(".type > .bar");
-      bars.forEach((bar) => {
-        const amount = parseInt(bar.textContent);
-        bar.style.height = (100 * amount) / maxCategoryAmount + "%";
+      bars.forEach((bar, i) => {
+        const amount = self.praiseTypes[i].count;
+        if (self.maxCategoryAmount === 0) {
+          bar.style.height = "0%";
+        } else {
+          bar.style.height = (100 * amount) / self.maxCategoryAmount + "%";
+        }
         if (amount !== 0) {
           bar.classList.add("exists");
         } else {
@@ -88,22 +97,22 @@ export default {
       });
     },
   },
-  computed: {
-    numPraisesOfType() {
+  watch: {
+    praises() {
       const self = this;
-      let praiseCountArray = [];
       this.praiseTypes.forEach((praiseType) => {
         const numPraises = self.praises.filter(
           (praise) => praise.type === praiseType.text
         ).length;
-        praiseCountArray.push(numPraises);
+        praiseType.count = numPraises;
+        if (self.maxCategoryAmount < numPraises) self.maxCategoryAmount = numPraises;
       });
-      return praiseCountArray;
+      this.updateBars();
     },
   },
   mounted: function () {
+    this.queryPraises();
     const self = this;
-    this.updateBars();
     this.updateInterval = setInterval(() => {
       self.queryPraises(this.updateInterval);
     }, 5000);
