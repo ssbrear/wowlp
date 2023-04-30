@@ -112,7 +112,7 @@ body::before {
         background-size: auto 100%;
     }
 }
-@media (max-aspect-ratio: 1195/1594) {
+@media (max-aspect-ratio: 1195/1594) or (max-width: 820px) {
     body::before {
         background-image: url('../../public/highres_phone_background.jpg'), url('../../public/lowres_phone_background.jpg');
     }
