@@ -205,6 +205,9 @@ a {
     border-radius: 50%;
     border: 5px solid var(--secondary-background-color);
   }
+  #headshot img {
+    border-radius: 50%;
+  }
   #info * {
     font-size: 14px;
   }

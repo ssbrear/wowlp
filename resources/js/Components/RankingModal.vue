@@ -159,7 +159,7 @@ export default {
   filter: brightness(0.5);
 }
 
-.ranking-modal__inner .type {
+.type {
   flex: auto;
   color: var(--secondary-text-color);
   border: none;
@@ -173,17 +173,33 @@ export default {
   max-width: 70px;
   width: 100%;
 }
-.ranking-modal__inner .type i {
+.type i {
   font-size: 20px;
 }
-.type .bar {
-  width: 100%;
+.bar {
+  width: 50px;
   height: 0;
   text-align: center;
   transition: 1s ease-in-out;
 }
-.type .bar.exists {
+.bar.exists {
   background-color: var(--primary-color);
   padding-top: 10px;
+}
+@media (max-width: 820px) {
+  .ranking-modal__inner {
+    width: fit-content;
+  }
+  .type {
+    font-size: 12px;
+  }
+  .type i {
+    font-size: 12px;
+  }
+}
+@media (max-width: 495px) {
+  .type {
+    font-size: 8px;
+  }
 }
 </style>

@@ -10,7 +10,7 @@
         @click="postPraise(praise.text)"
       >
         <span class="fa-3x" v-html="praise.icon"></span>
-        {{ praise.text }}
+        <span>{{ praise.text }}</span>
       </button>
     </div>
   </div>
@@ -67,7 +67,7 @@ export default {
         type: praise,
       });
       this.praiseModal();
-      this.$emit('praiseState', true);
+      this.$emit("praiseState", true);
     },
   },
 };
@@ -88,7 +88,8 @@ export default {
 }
 .praise-modal__inner {
   position: absolute;
-  width: 850px;
+  max-width: 800px;
+  width: 100%;
   height: 250px;
   padding: 20px;
   display: flex;
@@ -108,7 +109,7 @@ export default {
   filter: brightness(0.5);
 }
 
-.praise-modal__inner .option {
+.option {
   flex: auto;
   background-color: var(--secondary-background-color);
   color: var(--secondary-text-color);
@@ -128,5 +129,28 @@ export default {
 
 .praise-modal__inner .option:active {
   filter: brightness(0.7);
+}
+.option span {
+  display: block;
+  margin: 0 auto;
+}
+@media (max-width: 820px) {
+  .praise-modal__inner {
+    width: fit-content;
+    gap: 10px;
+    flex-direction: column;
+    height: unset;
+    bottom: 40px;
+    right: 10px;
+  }
+  .option {
+    padding: 10px;
+  }
+  .option span {
+    font-size: 12px;
+  }
+  .option i {
+    font-size: 20px;
+  }
 }
 </style>
