@@ -1,23 +1,32 @@
 <template>
   <div id="searchForm">
+    <h1>WoW LP</h1>
     <form id="search-container" @submit.prevent="search()">
       <div @click="realmMenu()" id="fake-select">
         <span id="fake-select__label">{{ form.realm.name }}</span>
         <i class="fa-solid fa-chevron-down"></i>
-        <div id="fake-select__dropdown" v-if="realmDropdownActive">
+        <div id="fake-select__dropdown" v-if="realmDropdownActive" :class="realmFetching ? 'loading' : ''">
           <div v-if="realmFetching" class="loading">
             <div class="fa-3x">
               <i class="fas fa-spinner fa-spin"></i>
             </div>
           </div>
           <div
-            v-for="realm in realms"
-            :key="realm in realms"
+            v-for="realm in filteredRealms"
+            :key="realm in filteredRealms"
             @click="selectRealm(realm.slug, realm.name)"
           >
             {{ realm.name }}
           </div>
         </div>
+        <input
+          autocomplete="off"
+          type="text"
+          v-if="realmDropdownActive"
+          id="fake-select__search"
+          v-model="realmSearch"
+          tabindex="1"
+        />
       </div>
       <select id="realm-select" v-model="form.realm">
         <option class="hidden" value="realms"></option>
@@ -31,6 +40,7 @@
       </select>
       <div id="search-container__inner">
         <input
+          id="search"
           type="text"
           v-model="form.character"
           placeholder="Search characters..."
@@ -50,6 +60,8 @@ export default {
       realmFetching: false,
       charFetching: false,
       realms: [],
+      filteredRealms: [],
+      realmSearch: "",
       form: {
         realm: {
           slug: "realms",
@@ -76,8 +88,8 @@ export default {
         this.realmFetching = true;
         const { data } = await axios.get("/api/realms");
         this.realmFetching = false;
-        data.sort((a, b) => a.name > b.name);
         this.realms = data;
+        this.filteredRealms = data;
       }
     },
     selectRealm: function (slug, name) {
@@ -112,28 +124,32 @@ export default {
       this.charFetching = false;
       this.$emit("charData", data);
     },
+    filterRealms: function (newSearch) {
+      const realmSearch = newSearch.toLowerCase();
+      const realms = this.realms;
+      this.filteredRealms = realms.filter((realm) =>
+        realm.name.toLowerCase().includes(realmSearch)
+      );
+    },
+  },
+  watch: {
+    realmSearch: function (newSearch) {
+      this.filterRealms(newSearch);
+    },
   },
   mounted() {
     // Close dropdown if click occurs outside
     const self = this;
     window.addEventListener("click", (e) => {
-      const fakeSelect = document.getElementById("fake-select");
-      if (fakeSelect.contains(e.target)) return;
+      const searchContainer = document.getElementById("search-container");
+      if (searchContainer.contains(e.target)) {
+        if (document.activeElement.id !== "search") {
+          document.querySelector("#fake-select__search").focus();
+        }
+        return;
+      }
       if ((self.realmDropdownActive = true)) {
         self.realmDropdownActive = false;
-      }
-    });
-    window.addEventListener("keydown", function (e) {
-      const dropdown = document.getElementById("fake-select__dropdown");
-      if (!self.realmDropdownActive) return;
-      const key = e.key;
-      for (let i = 0; i < dropdown.childNodes.length; i++) {
-        if (
-          dropdown.childNodes[i].textContent.charAt(0).toLowerCase() === key
-        ) {
-          dropdown.childNodes[i].scrollIntoView();
-          break;
-        }
       }
     });
   },
@@ -146,8 +162,15 @@ export default {
   justify-content: center;
   position: relative;
   z-index: 1;
-  max-width: 587px;
-  margin: auto;
+  padding: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  color: var(--primary-text-color);
+  flex-basis: 100%;
 }
 #search-container {
   display: flex;
@@ -165,12 +188,12 @@ export default {
 #fake-select {
   border-radius: 0;
   border: none;
-  width: 240px;
+  width: 275px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: var(--secondary-background-color);
+  background-color: var(--tertiary-background-color);
   color: var(--secondary-text-color);
   font-weight: 600;
   cursor: pointer;
@@ -180,16 +203,34 @@ export default {
 
 #fake-select__dropdown {
   position: absolute;
-  flex-direction: column;
-  background-color: var(--secondary-background-color);
-  height: min(100vh, 400px);
+  background-color: var(--tertiary-background-color);
+  max-height: 400px;
   top: 100%;
   left: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
 }
+#fake-select__dropdown.loading {
+  min-height: 100px;
+}
+#fake-select__dropdown .loading {
+  min-height: 100px;
+  transition: none;
+  padding: 0;
+}
 
-#fake-select__dropdown div {
+#fake-select__search {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--tertiary-background-color);
+  color: var(--primary-text-color);
+  border-bottom: 1px solid var(--secondary-text-color);
+}
+
+#fake-select__dropdown > div {
   padding: 5px 20px;
   transition: 0.3s;
 }
@@ -200,27 +241,25 @@ export default {
 
 #search-container__inner {
   position: relative;
-}
-
-#search-container input {
-  border: none;
-  padding-right: 40px;
-  padding-left: 20px;
-  font-family: inherit;
-  font-weight: 500;
-  font-size: 1.25rem;
-  height: 100%;
   width: 100%;
 }
 
-#search-container input:focus-visible {
+input {
   outline: none;
+  border: none;
+  padding-right: 40px;
+  padding-left: 20px;
+  font-size: 1.25rem;
+  font-family: inherit;
+  font-weight: 500;
+  height: 100%;
+  width: 100%;
 }
 
 #search-container button {
   position: absolute;
   right: 0;
-  top: 50%;
+  top: calc(50% - 1px);
   transform: translateY(-50%);
   height: 100%;
   background: transparent;
@@ -255,18 +294,17 @@ export default {
   top: 100%;
 }
 
-@media (max-width: 820px) {
-  #search-container {
-    flex-direction: column;
-    height: 90px;
-    max-width: 500px;
-  }
-  #search-container > * {
-    height: 50%;
-    width: 100%;
-  }
-  #fake-select {
-    order: 1;
-  }
+#search-container {
+  flex-direction: column;
+  height: 90px;
+  max-width: 500px;
 }
+#search-container > * {
+  height: 50%;
+  width: 100%;
+}
+#fake-select {
+  order: 1;
+}
+
 </style>

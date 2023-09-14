@@ -117,17 +117,24 @@ export default {
 <style>
 #character-card {
   display: flex;
-  background-color: var(--secondary-background-color);
+  background-color: var(--tertiary-background-color);
   color: var(--secondary-text-color);
-  padding: 2em;
-  margin: 4em auto 0;
-  max-width: 650px;
+  padding: 10px;
+  margin: 5em auto 0;
   position: relative;
 }
 #headshot {
-  width: 84px;
-  height: 84px;
-  margin-right: 20px;
+  position: absolute;
+  height: 90px;
+  width: 90px;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  border-radius: 50%;
+  border: 5px solid var(--secondary-background-color);
+}
+#headshot img {
+  border-radius: 50%;
 }
 
 #info {
@@ -136,7 +143,9 @@ export default {
   gap: 10px;
   font-weight: 500;
 }
-
+#info * {
+  font-size: 14px;
+}
 #info > div {
   display: flex;
   gap: 10px;
@@ -181,6 +190,7 @@ a {
 #actions i {
   color: var(--primary-color);
   transition: 0.3s;
+  font-size: 20px;
 }
 
 #actions i:hover {
@@ -189,51 +199,27 @@ a {
 .loading {
   background-color: var(--secondary-background-color);
 }
+
+#individual {
+  display: flex;
+  flex-direction: column;
+}
+#group {
+  display: flex;
+  flex-wrap: wrap;
+}
+#guild {
+  font-size: 16px;
+  flex: 100%;
+}
+.delimeter {
+  display: none;
+}
+#ranking button {
+  font-size: 16px;
+}
+
 @media (max-width: 820px) {
-  #character-card {
-    padding: 10px;
-    max-width: 400px;
-    margin-top: 6em;
-  }
-  #headshot {
-    position: absolute;
-    height: 90px;
-    width: 90px;
-    top: -50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-    border-radius: 50%;
-    border: 5px solid var(--secondary-background-color);
-  }
-  #headshot img {
-    border-radius: 50%;
-  }
-  #info * {
-    font-size: 14px;
-  }
-  #individual {
-    display: flex;
-    flex-direction: column;
-  }
-  #group {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  #guild {
-    font-size: 16px;
-    flex: 100%;
-  }
-  .delimeter {
-    display: none;
-  }
-  #ranking button {
-    font-size: 16px;
-  }
-  #actions {
-    top: 0;
-  }
-  #actions i {
-    font-size: 20px;
-  }
+
 }
 </style>
