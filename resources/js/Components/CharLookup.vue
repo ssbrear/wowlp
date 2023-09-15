@@ -117,7 +117,7 @@ export default {
 
 <style>
 #char-lookup {
-  width: min(100%, 310px);
+  width: min(100%, 350px);
   background-color: var(--secondary-background-color);
   height: 100%;
   display: flex;

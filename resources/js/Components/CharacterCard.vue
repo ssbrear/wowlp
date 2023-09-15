@@ -122,6 +122,7 @@ export default {
   padding: 10px;
   margin: 5em auto 0;
   position: relative;
+  width: min(310px, calc(100% - 20px))
 }
 #headshot {
   position: absolute;
